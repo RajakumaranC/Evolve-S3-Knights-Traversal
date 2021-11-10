@@ -8,10 +8,10 @@ namespace KnightTraversal
     {
         public readonly int[] start;
         public readonly int[] dest;
-        public static int[] cx = {1, 1, 2, 2, -1, -1, -2, -2};
-        public static int[] cy = {2, -2, 1, -1, 2, -2, 1, -1};
+        private static int[] cx = {1, 1, 2, 2, -1, -1, -2, -2};
+        private static int[] cy = {2, -2, 1, -1, 2, -2, 1, -1};
         public readonly int N;
-        public readonly HashSet<(int, int)> visited;
+        private readonly HashSet<(int, int)> visited;
 
         public KnightTraversal(int[] start, int[] dest, int n)
         {

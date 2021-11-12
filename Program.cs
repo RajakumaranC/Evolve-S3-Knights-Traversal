@@ -25,22 +25,27 @@ namespace KnightTraversal
             Console.Write("Y cordinate: ");
             dest[1] = Int32.Parse(Console.ReadLine()); 
 
-            var knightTraversal = new KnightTraversal(start, dest, dimension);
-
-            var path = knightTraversal.BuildPath();
-            
-            if(path.Count == 0)
+            try
             {
-                Console.WriteLine("No path available! Please check if the coordinates are within the board's bounds");
-                return;
+                var knightTraversal = new KnightTraversal(start, dest, dimension);
+
+                var path = knightTraversal.BuildPath();
+
+                Console.WriteLine("\nThe shortest path list consititute of: \n");
+
+                foreach (var p in path)
+                {
+                    Console.WriteLine($"Move - {p[0]}, {p[1]}");
+                }
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
             }
             
-            Console.WriteLine("\nThe shortest path list consititute of: \n");
-
-            foreach (var p in path)
-            {
-                Console.WriteLine($"Move - {p[0]}, {p[1]}");
-            }
+            
+            
+            
         }
 
 

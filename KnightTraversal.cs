@@ -6,8 +6,8 @@ namespace KnightTraversal
 {
     public partial class KnightTraversal
     {
-        public readonly int[] start;
-        public readonly int[] dest;
+        private readonly int[] start;
+        private readonly int[] dest;
         private static int[] cx = {1, 1, 2, 2, -1, -1, -2, -2};
         private static int[] cy = {2, -2, 1, -1, 2, -2, 1, -1};
         public readonly int N;
@@ -15,22 +15,23 @@ namespace KnightTraversal
 
         public KnightTraversal(int[] start, int[] dest, int n)
         {
+            this.N = n;
+
+            if(start == null || dest == null || start.Length != 2 || dest.Length != 2)
+                throw new ArgumentException("start and detination array are not in the right formats");
+
+            if(!WithinRange(dest[0], dest[1]) || !WithinRange(start[0], start[1]))
+                throw new ArgumentException("Invalid board or start and/or destination positions are outside of the board's boundry");
+            
             this.start = start;
             this.dest = dest;
-            this.N = n;
             this.visited = new HashSet<(int, int)>();
-            
         }
 
 
         public List<int[]> BuildPath()
         {
-
-            if(start == null || dest == null || start.Length != 2 || dest.Length != 2)
-                throw new ArgumentOutOfRangeException("start and detination are not within bounds");
-
             var point = BFS_Helper(dest[0], dest[1]);
-
             return BuildPathList_Helper(point);
         }
 
@@ -53,12 +54,12 @@ namespace KnightTraversal
 
         private Point BFS_Helper(int i, int j)
         {
-            if(!WithinRange(i, j)) return null;
+            if( !WithinRange(i, j) ) return null;
 
             Queue<Point> queue = new Queue<Point>();
             Point start = new Point(i, j);
             
-            visited.Add((i,j));
+            visited.Add( (i,j) );
             
             queue.Enqueue(start);
 
@@ -69,7 +70,7 @@ namespace KnightTraversal
                 current = queue.Peek(); 
                 queue.Dequeue();
 
-                if(IsDestination(current))
+                if( IsDestination(current) )
                 {
                     return current;
                 }
@@ -79,12 +80,12 @@ namespace KnightTraversal
                     int rowNext = current.row + cx[idx];
                     int colNext = current.col + cy[idx];
 
-                    if(WithinRange(rowNext, colNext) && !visited.Contains((rowNext, colNext)))
+                    if( WithinRange(rowNext, colNext) && !visited.Contains( (rowNext, colNext) ) )
                     {
                         Point nextPoint = new Point(rowNext, colNext);
                         nextPoint.Previous = current;
                         queue.Enqueue(nextPoint);
-                        visited.Add((rowNext, colNext));
+                        visited.Add( (rowNext, colNext) );
                     }
                 }
                 
